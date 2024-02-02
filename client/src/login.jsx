@@ -1,9 +1,15 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 
 const Login = () => {
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            navigate("/")
+        }
+    }, [navigate])
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -14,8 +20,8 @@ const Login = () => {
         axios.post("http://localhost:8000/login", { email, password })
             .then((res) => {
                 toast.success("User login successfully ")
-                const data = res.data;
-                navagate("/", { state: { data } })
+                localStorage.setItem("token", res.data.token);
+                navagate("/")
             })
             .catch(error => {
                 console.error("Error submitting form:", error);

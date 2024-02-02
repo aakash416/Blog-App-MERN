@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'react-toastify';
@@ -9,14 +9,19 @@ const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
-    const navagate = useNavigate();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            navigate("/")
+        }
+    }, [navigate])
 
     const handleSubmit = (e) => {
         e.preventDefault();
         axios.post("http://localhost:8000/signup", { firstName, lastName, email, password, phoneNumber })
             .then((result) => {
                 toast.success("Registration Completed Successfully")
-                navagate("/login")
+                navigate("/login")
 
             })
             .catch(error => {

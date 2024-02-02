@@ -7,6 +7,7 @@ import NewBlogPost from './newBlogPost';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BlogById from './blogById';
+import EditBlogPost from './editBlogPost';
 
 function App() {
   return (
@@ -17,7 +18,8 @@ function App() {
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
         <Route path='/newblogpost' element={<NewBlogPost />} />
-        <Route path='/:id' element={<BlogById />} />
+        <Route path='read/:id' element={<BlogById />} />
+        <Route path='edit/:id' element={<EditBlogPost />} />
       </Routes>
     </BrowserRouter >
 

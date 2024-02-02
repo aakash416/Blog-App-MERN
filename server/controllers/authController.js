@@ -1,6 +1,10 @@
 const userModel = require("../models/userModel");
 const Blog = require("../models/Blog");
 const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
+const secretOrPrivateKey = "anusha";
+
 async function handleSignup(req, res) {
     try {
         const { fisrtName, lastName, email, password, phoneNumber } = req.body;
@@ -33,18 +37,19 @@ async function handelLogin(req, res) {
         if (!existingUser)
             return res.status(401).json({ message: "Invalid email id or password" });
 
-        const compair = await bcryptjs.compare(password, existingUser.password); //
+        const compair = await bcryptjs.compare(password, existingUser.password);
+        
+        const Token = jwt.sign({ userId: existingUser._id }, secretOrPrivateKey, { expiresIn: "1h" });
 
+        const userData = {
+            userId: existingUser._id,
+            firstName: existingUser.firstName,
+            lastName: existingUser.lastName,
+            email: existingUser.email,
+            phoneNumber: existingUser.phoneNumber,
+        }
         if (compair)
-            return res
-                .status(200)
-                .json({
-                    userId: existingUser._id,
-                    firstName: existingUser.firstName,
-                    lastName: existingUser.lastName,
-                    email: existingUser.email,
-                    phoneNumber: existingUser.phoneNumber,
-                });
+            return res.status(200).json({ Token, userData });
         else
             return res.status(401).json({ message: "Invalid email id or password" });
     } catch (err) {
@@ -84,4 +89,27 @@ async function handelBlogbyId(req, res) {
         res.status(500).json({ message: "Internal Server error" });
     }
 }
-module.exports = { handleSignup, handelLogin, handelNewblogpost, handelAllblogpost, handelBlogbyId };
+
+async function handeleEditeBlogById(req, res) {
+    try {
+        const blogId = req.params.blogId;
+        const blogbyId = await Blog.findByIdAndUpdate(blogId, req.body)
+        return res.status(201).json("Updated Scuccessfully Blog");
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Internal Server error" });
+    }
+}
+async function handeleDeleteBlogById(req, res) {
+    try {
+        const blogId = req.params.blogId;
+        const blogbyId = await Blog.findByIdAndDelete(blogId);
+        return res.status(201).json("successfully deleted Blog");
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Internal Server error" });
+    }
+}
+module.exports = { handleSignup, handelLogin, handelNewblogpost, handelAllblogpost, handelBlogbyId, handeleDeleteBlogById, handeleEditeBlogById };
+
+

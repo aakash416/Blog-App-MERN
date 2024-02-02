@@ -18,9 +18,9 @@ const BlogById = () => {
     }, [id]);
     return (
         <div>
-            <h1>{data.title}</h1>
-            <p>{data.author}</p>
-            <p>{data.body}</p>
+            {data ? <><h1>{data.title}</h1>
+                <p>{data.author}</p>
+                <p>{data.body}</p></> : <h1>Loading...</h1>}
         </div>
     )
 }
