@@ -1,36 +1,6 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import React from 'react'
 
-const EditBlogPost = () => {
-
-    const navigate = useNavigate();
-    const { id } = useParams();
-    const [data, setData] = useState([]);
-    useEffect(() => {
-        axios.get("http://localhost:8000/blogbyid/" + id)
-            .then((res) => {
-                setData(res.data)
-            })
-            .catch(error => {
-                console.error("Error submitting form:", error);
-                toast.error(error.response.data.message);
-            });
-    }, [id]);
-    
-    const handleUpdatedData = (e) => {
-        e.preventDefault();
-        axios.put("http://localhost:8000/blogbyid/" + id, data)
-            .then((res) => {
-                toast.success(res.data);
-                navigate("/");
-            })
-            .catch(error => {
-                console.error("Error updateing Blog:", error);
-                toast.error(error.response.data.message);
-            });
-    }
+const FormBlog = ({ data, setData, buttonName, handleSubmit }) => {
 
 
     return (
@@ -38,7 +8,7 @@ const EditBlogPost = () => {
             <div className="row">
                 <div className="col"></div>
                 <div className="col">
-                    <form onSubmit={handleUpdatedData}>
+                    <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="firstname" className="form-label">
                                 Title
@@ -80,7 +50,7 @@ const EditBlogPost = () => {
                             />
                         </div>
                         <button type="submit" className="btn btn-primary">
-                            Update Blog
+                            {buttonName}
                         </button>
                     </form>
                 </div>
@@ -90,4 +60,4 @@ const EditBlogPost = () => {
     )
 }
 
-export default EditBlogPost;
+export default FormBlog

@@ -13,15 +13,14 @@ const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const navagate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8000/login", { email, password })
+        axios.post("http://localhost:8000/user/login", { email, password })
             .then((res) => {
                 toast.success("User login successfully ")
                 localStorage.setItem("token", res.data.token);
-                navagate("/")
+                navigate("/")
             })
             .catch(error => {
                 console.error("Error submitting form:", error);

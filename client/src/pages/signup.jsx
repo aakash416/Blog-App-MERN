@@ -18,7 +18,7 @@ const Signup = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8000/signup", { firstName, lastName, email, password, phoneNumber })
+        axios.post("http://localhost:8000/user/signup", { firstName, lastName, email, password, phoneNumber })
             .then((result) => {
                 toast.success("Registration Completed Successfully")
                 navigate("/login")

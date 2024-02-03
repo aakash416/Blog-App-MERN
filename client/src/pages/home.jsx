@@ -8,7 +8,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     const handleNewBlogPost = () => {
-        navigate('/newblogpost');
+        navigate('/new');
     };
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const Home = () => {
     }, [navigate])
 
     useEffect(() => {
-        axios.get("http://localhost:8000/allblogpost")
+        axios.get("http://localhost:8000/blog")
             .then((res) => {
                 setData(res.data)
             })
@@ -32,7 +32,7 @@ const Home = () => {
 
     const handleDeleteBlog = (id) => {
 
-        axios.delete("http://localhost:8000/blogbyid/" + id)
+        axios.delete("http://localhost:8000/blog/" + id)
             .then((res) => {
                 toast.warn(res.data);
                 setData(data.filter((value) => value._id !== id))
@@ -85,10 +85,3 @@ export default Home;
 
 
 
-
-// const data = [32, 33, 16, 40];
-// const result = data.filter((value) => value !== 32);
-
-
-
-// console.log(result);
