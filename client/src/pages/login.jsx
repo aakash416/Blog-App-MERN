@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 const Login = () => {
     const navigate = useNavigate();
     useEffect(() => {
-        if (localStorage.getItem("token")) {
+        if (localStorage.getItem("userId")) {
             navigate("/")
         }
     }, [navigate])
@@ -20,6 +20,7 @@ const Login = () => {
             .then((res) => {
                 toast.success("User login successfully ")
                 localStorage.setItem("token", res.data.token);
+                localStorage.setItem("userId", res.data.userData.userId);
                 navigate("/")
             })
             .catch(error => {

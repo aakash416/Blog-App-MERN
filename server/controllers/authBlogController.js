@@ -1,4 +1,4 @@
-const Blog = require("../models/Blog");
+const Blog = require("../models/blogModel");
 
 async function handelNewBlogPost(req, res) {
     try {
@@ -12,8 +12,19 @@ async function handelNewBlogPost(req, res) {
 
 async function handelAllBlogPost(req, res) {
     try {
-        const allBlogData = await Blog.find();
+        const allBlogData = await Blog.find().populate("authorId");
         return res.status(201).json(allBlogData);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Internal Server error" });
+    }
+}
+
+async function handelAllAuthorBlogPost(req, res) {
+    try {
+        const blogId = req.params.id;
+        const allAuthorBlogData = await Blog.find({ authorId: blogId }).populate("authorId");
+        return res.status(201).json(allAuthorBlogData);
     } catch (err) {
         console.log(err);
         res.status(500).json({ message: "Internal Server error" });
@@ -50,4 +61,4 @@ async function handeleDeleteBlogById(req, res) {
         res.status(500).json({ message: "Internal Server error" });
     }
 }
-module.exports = { handelNewBlogPost, handelAllBlogPost, handelBlogById, handeleDeleteBlogById, handeleEditBlogById };
+module.exports = { handelNewBlogPost, handelAllBlogPost, handelBlogById, handeleDeleteBlogById, handeleEditBlogById, handelAllAuthorBlogPost };

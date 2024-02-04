@@ -4,16 +4,15 @@ import axios from 'axios'
 import { toast } from 'react-toastify';
 import FormBlog from '../components/formBlog';
 
-const NewBlogPost = () => {
-    const [data, setData] = useState({ title: "", body: "", author: "" });
+const CreateNewBlogPost = () => {
+    const [data, setData] = useState({ title: "", body: "", authorId: "" });
     const navagate = useNavigate();
-
     const handleNewblogpost = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8000/blog", data)
+        axios.post("http://localhost:8000/blog", { title: data.title, body: data.body, authorId: localStorage.getItem("userId") })
             .then((result) => {
                 toast.success("New Blog Susccessfully Created")
-                navagate("/")
+                navagate("/my-blog")
 
             })
             .catch(error => {
@@ -27,4 +26,4 @@ const NewBlogPost = () => {
     )
 }
 
-export default NewBlogPost;
+export default CreateNewBlogPost;

@@ -36,19 +36,6 @@ const FormBlog = ({ data, setData, buttonName, handleSubmit }) => {
                                 onChange={(e) => setData({ ...data, body: e.target.value })}
                             />
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="lastName" className="form-label">
-                                Author
-                            </label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                id="lastName"
-                                name='lastName'
-                                value={data.author}
-                                onChange={(e) => setData({ ...data, author: e.target.value })}
-                            />
-                        </div>
                         <button type="submit" className="btn btn-primary">
                             {buttonName}
                         </button>

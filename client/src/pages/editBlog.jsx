@@ -25,7 +25,7 @@ const EditBlogPost = () => {
         axios.put("http://localhost:8000/blog/" + id, data)
             .then((res) => {
                 toast.success(res.data);
-                navigate("/");
+                navigate("/my-blog");
             })
             .catch(error => {
                 console.error("Error updateing Blog:", error);
