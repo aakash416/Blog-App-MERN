@@ -1,16 +1,15 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import FormBlog from '../components/formBlog';
+import { getBlogPostById, editBlogPostById } from '../service/AuthService';
 
 const EditBlogPost = () => {
-
     const navigate = useNavigate();
     const { id } = useParams();
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:8000/blog/" + id)
+        getBlogPostById(id)
             .then((res) => {
                 setData(res.data)
             })
@@ -22,18 +21,15 @@ const EditBlogPost = () => {
 
     const handleUpdatedData = (e) => {
         e.preventDefault();
-        axios.put("http://localhost:8000/blog/" + id, data)
-            .then((res) => {
-                toast.success(res.data);
-                navigate("/my-blog");
-            })
+        editBlogPostById(id, data).then((res) => {
+            toast.success(res.data);
+            navigate("/my-blog");
+        })
             .catch(error => {
                 console.error("Error updateing Blog:", error);
                 toast.error(error.response.data.message);
             });
     }
-
-
     return (
         <FormBlog data={data} setData={setData} buttonName="Update Blog" handleSubmit={handleUpdatedData} />
     )

@@ -1,16 +1,15 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { getBlogPostById } from '../service/AuthService';
 
 const ReadBlog = () => {
     const { id } = useParams();
     const [data, setData] = useState([]);
     useEffect(() => {
-        axios.get("http://localhost:8000/blog/" + id)
-            .then((res) => {
-                setData(res.data)
-            })
+        getBlogPostById(id).then((res) => {
+            setData(res.data)
+        })
             .catch(error => {
                 console.error("Error submitting form:", error);
                 toast.error(error.response.data.message);

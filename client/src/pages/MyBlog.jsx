@@ -1,18 +1,15 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { deleteBlogPostById, getMyBlogPostById } from '../service/AuthService';
 
 const MyBlog = () => {
-
     const [data, setData] = useState([]);
     const navigate = useNavigate();
-
     useEffect(() => {
-        axios.get("http://localhost:8000/blog/myblog/" + localStorage.getItem("userId"))
-            .then((res) => {
-                setData(res.data)
-            })
+        getMyBlogPostById(localStorage.getItem("userId")).then((res) => {
+            setData(res.data)
+        })
             .catch(error => {
                 console.error("Error submitting form:", error);
                 toast.error(error.response.data.message);
@@ -21,12 +18,10 @@ const MyBlog = () => {
 
 
     const handleDeleteBlog = (id) => {
-
-        axios.delete("http://localhost:8000/blog/" + id)
-            .then((res) => {
-                toast.warn(res.data);
-                setData(data.filter((value) => value._id !== id))
-            })
+        deleteBlogPostById(id).then((res) => {
+            toast.warn(res.data);
+            setData(data.filter((value) => value._id !== id))
+        })
             .catch(error => {
                 console.error("Error submitting form:", error);
                 toast.error(error.response.data.message);

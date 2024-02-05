@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import { toast } from 'react-toastify';
-
+import { createUser } from '../service/AuthService';
 const Signup = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setlastName] = useState("");
@@ -18,11 +17,10 @@ const Signup = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://localhost:8000/user/signup", { firstName, lastName, email, password, phoneNumber })
-            .then((result) => {
+        createUser(firstName, lastName, email, password, phoneNumber)
+            .then(() => {
                 toast.success("Registration Completed Successfully")
                 navigate("/login")
-
             })
             .catch(error => {
                 console.error("Error submitting form:", error);
