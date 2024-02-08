@@ -27,14 +27,16 @@ const FormBlog = ({ data, setData, buttonName, handleSubmit }) => {
                             <label htmlFor="lastName" className="form-label">
                                 Body
                             </label>
-                            <textarea
-                                type="text"
-                                className="form-control"
-                                id="lastName"
-                                name='lastName'
-                                value={data.body}
-                                onChange={(e) => setData({ ...data, body: e.target.value })}
-                            />
+                            <pre>
+                                <textarea
+                                    type="text"
+                                    className="form-control"
+                                    id="lastName"
+                                    name='lastName'
+                                    value={data.body}
+                                    onChange={(e) => setData({ ...data, body: e.target.value })}
+                                />
+                            </pre>
                         </div>
                         <button type="submit" className="btn btn-primary">
                             {buttonName}

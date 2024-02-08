@@ -7,7 +7,6 @@ const Home = () => {
     const [data, setData] = useState([]);
     const navigate = useNavigate();
     useEffect(() => {
-
         getAllBlogPosts().then((res) => {
             setData(res.data)
         })

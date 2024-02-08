@@ -1,11 +1,9 @@
 const userModel = require("../models/userModel");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-const secretOrPrivateKey = "anusha";
-
 async function handleSignup(req, res) {
     try {
+        
         const { firstName, lastName, email, password, phoneNumber } = req.body;
         const existingUser = await userModel.findOne({ email });
         if (existingUser)
@@ -38,7 +36,7 @@ async function handleLogin(req, res) {
 
         const isMatch = await bcryptjs.compare(password, existingUser.password);
 
-        const Token = jwt.sign({ userId: existingUser._id }, secretOrPrivateKey, { expiresIn: "1h" });
+        const Token = jwt.sign({ userId: existingUser._id }, process.env.SECRET_KEY, { expiresIn: "1h" });
 
         const userData = {
             userId: existingUser._id,
@@ -47,8 +45,10 @@ async function handleLogin(req, res) {
             email: existingUser.email,
             phoneNumber: existingUser.phoneNumber,
         }
-        if (isMatch)
-            return res.status(200).json({ Token, userData });
+        if (isMatch) {
+
+            return res.cookie("token", Token).status(200).json({ Token, userData });
+        }
         else
             return res.status(401).json({ message: "Invalid email id or password" });
     } catch (err) {

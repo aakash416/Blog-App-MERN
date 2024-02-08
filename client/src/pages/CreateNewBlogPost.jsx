@@ -9,7 +9,7 @@ const CreateNewBlogPost = () => {
     const handleNewblogpost = (e) => {
         e.preventDefault();
         createBlogPost(data.title, data.body, localStorage.getItem("userId"))
-            .then((result) => {
+            .then(() => {
                 toast.success("New Blog Susccessfully Created")
                 navagate("/my-blog")
             })

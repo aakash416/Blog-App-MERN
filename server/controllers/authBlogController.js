@@ -12,6 +12,7 @@ async function handelNewBlogPost(req, res) {
 
 async function handelAllBlogPost(req, res) {
     try {
+        console.log(req.cookies.token);
         const allBlogData = await Blog.find().populate("authorId");
         return res.status(201).json(allBlogData);
     } catch (err) {
